@@ -159,7 +159,4 @@ Replace placeholders with actual values.
 - Run mvn clean verify before PRs.
 - Keep configuration externalized; do not commit secrets.
 
-## License
-
-This project is provided for educational and demo purposes. Add a proper OSS license (e.g., Apache-2.0 or MIT) if you plan public distribution.
 ```
