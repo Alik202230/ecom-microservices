@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: notification-service
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: order-events-group, retry-listener-group
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+server:
+  port: 8084

@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecom_product_service_db
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+
+
+# actuator config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sample:
+      probability: 1.0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+server:
+  port: 8081

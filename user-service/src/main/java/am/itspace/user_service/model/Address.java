@@ -1,0 +1,25 @@
+package am.itspace.user_service.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Setter
+@Getter
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "address")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Address {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String street;
+  private String city;
+  private String state;
+  private String zipCode;
+  private String country;
+}

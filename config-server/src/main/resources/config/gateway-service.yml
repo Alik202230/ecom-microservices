@@ -1,0 +1,79 @@
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: product-service
+#          uri: lb://PRODUCT-SERVICE # -> http://localhost:8081
+#          predicates:
+##            - Path=/api/products/**
+#            - Path=/products/**
+#          filters:
+#            - RewritePath=/products(?<segment>/?.*), /api/products${segment}
+#        - id: user-service
+#          uri: lb://USER-SERVICE   # -> http://localhost:8082
+#          predicates:
+##            - Path=/api/users/**
+#            - Path=/users/**
+#          filters:
+#            - RewritePath=/users(?<segment>/?.*), /api/users${segment}
+#        - id: order-service
+#          uri: lb://ORDER-SERVICE  # -> http://localhost:8083
+#          predicates:
+##            - Path=/api/orders/**, /api/cart-items/**
+#            - Path=/orders/**, /cart-items/**
+#          filters:
+#            - RewritePath=/(?<segment>.*), /api/${segment}
+#        - id: eureka-server
+#          uri: http://localhost:8761
+#          predicates:
+#            - Path=/eureka/main
+#          filters:
+#            - SetPath=/
+#        - id: eureka-server-static
+#          uri: http://localhost:8761
+#          predicates:
+#            - Path=/eureka/**
+
+server:
+  port: 8080
+
+#logging:
+#  level:
+#    root: info
+#    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
+#    org.springframework.cloud.gateway: TRACE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuit breakers:
+      enabled: true
+  tracing:
+    sample:
+      probability: 1.0
+
+resilience4j:
+  circuit breaker:
+    instances:
+      ecommerceBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        slidingWindowType: count_based
+
+
+spring:
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: http://localhost:8443/realms/ecom-microservice-app
